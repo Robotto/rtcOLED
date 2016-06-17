@@ -30,7 +30,7 @@ unsigned long onTime=0;
 
 //Batt:
 static unsigned battPin=A0;
-unsigned long ADCfiltered=5/1024*3.7; //default to 3.7V
+unsigned long ADCfiltered=1024/5*3.7; //default to 3.7V
 float vBatt=3.7;
 static int filterBeta=10;
 
