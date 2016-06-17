@@ -5,13 +5,13 @@ Originally mounted as an alarm clock but the display was too bright, now works a
 
 # Hardware:
 
-Initial sketch:
+##Initial sketch:
 ![sketch](img/sketch.jpg?raw=true "Sketch")
 
-Current setup:
+##Current setup:
 ![wear](http://i.imgur.com/XAbGQDZ.gifv "wear")
 
-Overview, parts:
+##Overview, parts:
 ![front](img/front.jpg?raw=true "Front")
 
 
