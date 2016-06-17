@@ -13,6 +13,6 @@ Originally mounted as an alarm clock but the display was too bright, now works a
 ##Overview, parts:
 ![front](img/front.jpg?raw=true "Front")
 
-.. oh! and there's a touch sensor behind the OLED, connected to one of the solder terminals on the top of the display.
+.. oh! and there's a touch sensor behind the OLED, connected to one of the solder terminals on the top left of the display.
 
 ![Back](img/back.jpg?raw=true "Back")
