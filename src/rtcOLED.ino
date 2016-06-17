@@ -4,52 +4,43 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #define OLED_RESET 4
+Adafruit_SSD1306 display(OLED_RESET);
+unsigned long lastUpdateTimeout;
+bool redraw=false;
+bool colon=true;
 
 //RTC:
 #include "RTClib.h"
+RTC_DS1307 RTC;
+DateTime now;
+//char *weekDay[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+char *weekDay[] = {"S\x9bndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","L\x9brdag"}; //omgwtfextendedASCII
 
 //ENC:
 #include <Encoder.h>
-
 static unsigned encA=1, encB=0, encBTN=9;
-static unsigned FETpin=7;
+Encoder myEnc(encA, encB);
+long oldPosition;
+int change=0;
 
 //Power management:
+static unsigned FETpin=7;
 static unsigned long powerDelay=10000;
 unsigned long onTime=0;
 
 //Batt:
-unsigned long ADCfiltered=1024;
+static unsigned battPin=A0;
+unsigned long ADCfiltered=5/1024*3.7; //default to 3.7V
 float vBatt=3.7;
 static int filterBeta=10;
-static unsigned battPin=A0;
 
-Adafruit_SSD1306 display(OLED_RESET);
-RTC_DS1307 RTC;
-Encoder myEnc(encA, encB);
-
-/*int dayOfWeek;
-int hour;
-int minute;
-int second;*/
-
+//Alarm:
+static unsigned alarmPin=10;
+bool alarmSet=false;
 int alarmHours=0;
 int alarmMinutes=0;
 int snoozeOffset=0;
 int snoozeDuration=5; //minutes
-int alarmPin=10;
-
-unsigned long lastUpdateTimeout;
-bool redraw=false;
-bool alarmSet=false;
-bool colon=true;
-//char *weekDay[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
-char *weekDay[] = {"S\x9bndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","L\x9brdag"};
-DateTime now;
-
-
-long oldPosition;
-int change=0;
 
 //States enum:
 enum clockStates { //default state should be "get_data"
@@ -64,8 +55,7 @@ enum clockStates { //default state should be "get_data"
 	snoozing
 };
 
-clockStates state = running;
-
+clockStates state = running; //hit the ground
 
 void setup()   {
 
@@ -79,14 +69,13 @@ void setup()   {
 
 	Serial.begin(9600);
 
-	TX_RX_LED_INIT;
+	TX_RX_LED_INIT; //Arduino leonardo specific
 
 	Wire.begin();
     RTC.begin();
 
 	//RTC.adjust(DateTime(F(__DATE__),F(__TIME__)));
-
-  	if (! RTC.isrunning()) RTC.adjust(DateTime(F(__DATE__),F(__TIME__)));
+  	//if (! RTC.isrunning()) RTC.adjust(DateTime(F(__DATE__),F(__TIME__)));
 
   	now = RTC.now();
 
@@ -97,10 +86,12 @@ void setup()   {
 	alarmIcon();
 	date();
 	display.display();
+
+	//load seconds animation
 	for(int i=0;i<=now.second();i++) //count up from 0 to current seconds
 		{
 		for(int j=0; j<8;j++) display.drawPixel(4+2*i, j, WHITE); //count seconds with lines
-		display.display(); //redraw for each
+		display.display(); //redraw for each second untill current
 		//delay(1); //magic number.. it looks good at this rate :)
 		}
 }
@@ -109,11 +100,10 @@ void setup()   {
 void loop()
 {
 
-	if(millis()>onTime+powerDelay) digitalWrite(FETpin,LOW); //turns the power off.
+	if(millis()>onTime+powerDelay) digitalWrite(FETpin,LOW); //turns the power off after $powerDelay milliseconds.
 
-	ADCfiltered=((ADCfiltered*filterBeta)+analogRead(battPin))/(filterBeta+1); //low pass.
-	vBatt=(float)5/(float)1024*(float)ADCfiltered;
-
+	ADCfiltered=((ADCfiltered*filterBeta)+analogRead(battPin))/(filterBeta+1); //low pass filtering of ADC0
+	vBatt=(float)5/(float)1024*(float)ADCfiltered; //ADC -> voltage
 
 	switch(state)
 	{
@@ -427,7 +417,7 @@ void alarmIcon()
 		clearAlarm();
 		display.setTextSize(1);
 		display.setCursor(30,47);
-		display.print("vBatt: ");
+		display.print("Batt: ");
 		display.print(String(vBatt));
 		display.print("V");
 	}
