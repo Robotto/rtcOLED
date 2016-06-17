@@ -9,7 +9,7 @@ Originally mounted as an alarm clock but the display was too bright, now works a
 ![sketch](img/sketch.jpg?raw=true "Sketch")
 
 ##Current setup:
-![wear](http://i.imgur.com/XAbGQDZ.gifv "wear")
+![wear](http://i.imgur.com/XAbGQDZ.gif "wear")
 
 ##Overview, parts:
 ![front](img/front.jpg?raw=true "Front")
