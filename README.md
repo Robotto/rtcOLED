@@ -7,8 +7,8 @@ Originally mounted as an alarm clock but the display was too bright, now works a
 ##Initial sketch:
 ![sketch](img/sketch.jpg?raw=true "Sketch")
 
-##Gif of current setup
-[http://i.imgur.com/XAbGQDZ.gif](http://i.imgur.com/XAbGQDZ.gif)
+##Gif of current setup:
+[http://i.imgur.com/XAbGQDZ.gifv](http://i.imgur.com/XAbGQDZ.gifv)
 
 ##Overview, parts:
 ![front](img/front.jpg?raw=true "Front")
