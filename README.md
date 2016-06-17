@@ -6,15 +6,14 @@ Originally mounted as an alarm clock but the display was too bright, now works a
 # Hardware:
 
 Initial sketch:
-[[https://github.com/Robotto/rtcOLED/tree/master/img/sketch.jpg|alt=sketch]]
-
+![sketch](img/sketch.jpg?raw=true "Sketch")
 
 Current setup:
-[[http://i.imgur.com/XAbGQDZ.gifv|alt=gif]]
+![wear](http://i.imgur.com/XAbGQDZ.gifv "wear")
 
 Overview, parts:
-[[https://github.com/Robotto/rtcOLED/tree/master/img/front.jpg|alt=front]]
+![front](img/front.jpg?raw=true "Front")
 
 
-[[https://github.com/Robotto/rtcOLED/tree/master/img/back.jpg|alt=back]]
+![Back](img/back.jpg?raw=true "Back")
 
