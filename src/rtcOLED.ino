@@ -88,7 +88,7 @@ void setup()   {
 	display.display();
 
 	//load seconds animation
-	for(int i=0;i<=now.second();i++) //count up from 0 to current seconds
+	for(int i=0;i<=now.second()+1;i++) //count up from 0 to current seconds (takes about 2 seconds to reach max)
 		{
 		for(int j=0; j<8;j++) display.drawPixel(4+2*i, j, WHITE); //count seconds with lines
 		display.display(); //redraw for each second untill current
