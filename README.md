@@ -6,13 +6,12 @@ Originally mounted as an alarm clock but the display was too bright, now works a
 # Hardware:
 ##Initial sketch:
 ![sketch](img/sketch.jpg?raw=true "Sketch")
+
 ##Gif of current setup:
 [[http://i.imgur.com/XAbGQDZ.gif|alt=gif!]]
 
-
 ##Overview, parts:
 ![front](img/front.jpg?raw=true "Front")
-
+.. oh! and there's a touch sensor behind the OLED, connected to one of the solder terminals on the top of the display.
 
 ![Back](img/back.jpg?raw=true "Back")
-
