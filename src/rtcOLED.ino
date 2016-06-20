@@ -67,6 +67,10 @@ void setup()   {
 	digitalWrite(alarmPin,LOW);
 	pinMode(alarmPin,OUTPUT);
 
+	//seed the ADC with proper values:
+	for(int a=0; a<=filterBeta; a++) ADCfiltered=((ADCfiltered*filterBeta)+analogRead(battPin))/(filterBeta+1); //low pass filtering of ADC0
+	vBatt=(float)5/(float)1024*(float)ADCfiltered; //ADC -> voltage
+
 	Serial.begin(9600);
 
 	TX_RX_LED_INIT; //Arduino leonardo specific
@@ -88,11 +92,25 @@ void setup()   {
 	display.display();
 
 	//load seconds animation
+	unsigned progressBarAcceleration=0;
+	unsigned secondsSinceRedraw=0;
 	for(int i=0;i<=now.second()+1;i++) //count up from 0 to current seconds (takes about 2 seconds to reach max)
 		{
 		for(int j=0; j<8;j++) display.drawPixel(4+2*i, j, WHITE); //count seconds with lines
-		display.display(); //redraw for each second untill current
-		//delay(1); //magic number.. it looks good at this rate :)
+		secondsSinceRedraw++;
+
+		//set redraw "delay" the higher the amount of seconds left to be drawn; the bigger "chunks" are drawn per redraw.
+		if      (now.second()-i > 30)  progressBarAcceleration=5;
+		else if (now.second()-i > 20)  progressBarAcceleration=3;
+		else if (now.second()-i > 10)  progressBarAcceleration=2;
+		else 						   progressBarAcceleration=1;
+
+		if(secondsSinceRedraw>=progressBarAcceleration)
+			{
+			display.display(); //redraw
+			secondsSinceRedraw=0;
+			}
+
 		}
 }
 
